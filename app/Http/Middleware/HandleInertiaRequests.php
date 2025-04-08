@@ -52,4 +52,13 @@ class HandleInertiaRequests extends Middleware
             ],
         ];
     }
+
+    public function rootView(Request $request)
+    {
+        if ($request->is(['dashboard', 'dashboard/*', 'login', 'register', 'admin'])) {
+            return 'appAdmin';
+        }
+
+        return 'app';
+    }
 }
