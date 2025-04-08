@@ -22,6 +22,18 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                globals: {
+                    jquery: 'jQuery',
+                    moment: 'moment',
+                    '@popperjs/core': 'Popper',
+                    KTUtil: 'KTUtil',
+                },
+            },
+        },
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
