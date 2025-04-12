@@ -16,6 +16,7 @@ class Noticia extends Model
         'noticia_titulo',
         'noticia_detalle',
         'miniatura',
+        'id_categoria',
         'id_usuario_creador',
         'id_estado'
     ];
@@ -53,5 +54,16 @@ class Noticia extends Model
             'estado_detalle' => $this->estado->estado_detalle ?? null,
             'miniatura_url' => $this->miniatura_url
         ]);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tbl_noticia_detalle_tag', 'id_noticia', 'id_tag')
+            ->withTimestamps();
+    }
+
+    public function galeriaImagenes()
+    {
+        return $this->hasMany(NoticiaDetalleGaleria::class, 'id_noticia');
     }
 }

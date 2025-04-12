@@ -14,12 +14,10 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return Inertia::render('Welcome', ['component' => 'Contact']);
 })->name('contact');
-
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+require __DIR__ . '/dashboard.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__ . '/apisCategoria/apiCategoria.php';
 require __DIR__ . '/apisNoticia/apiNoticia.php';
+require __DIR__ . '/apisModulo/apisModulo.php';
+require __DIR__ . '/apisTag/apiTag.php';
