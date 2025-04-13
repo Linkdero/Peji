@@ -14,6 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory()->create([
+            'name' => 'Anderson Morales',
+            'email' => 'anderson@gmail.com',
+            'password' =>  Hash::make('password'),
+        ]);
+
         $this->call([
             EstadoSeeder::class, // Asegúrate de tener este seeder para los estados
             CategoriaSeeder::class,
@@ -21,11 +27,9 @@ class DatabaseSeeder extends Seeder
             NoticiaSeeder::class,
             ModuloSeeder::class,
             SubModuloSeeder::class,
-        ]);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            DiaSeeder::class,
+            RedSocialSeeder::class,
+            EmpresaSeeder::class,
         ]);
     }
 }

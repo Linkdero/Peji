@@ -2,7 +2,6 @@
     <section id="blog-hero" class="blog-hero section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="blog-grid">
-                <!-- Featured Post (Large) -->
                 <article class="blog-item featured" data-aos="fade-up">
                     <img src="https://www.digixem360.com/wp-content/uploads/2022/11/Events.jpg.webp" alt="Blog Image"
                         class="img-fluid">
@@ -88,6 +87,6 @@
         </div>
     </section>
 </template>
-<script setup lang="ts">
+<script>
 import { Link } from '@inertiajs/vue3';
 </script>

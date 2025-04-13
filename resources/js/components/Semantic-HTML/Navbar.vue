@@ -3,20 +3,20 @@
         <div class="container-fluid container-xl position-relative">
             <div class="top-row d-flex align-items-center justify-content-between">
                 <Link href="/" class="logo d-flex align-items-end">
-                <!-- Uncomment the line below if you also wish to use an image logo -->
-                <!-- <img src="/assets/img/logo.webp" alt=""> -->
-                <h1 class="sitename">{{ siteName }}</h1><span>.</span>
+                <div class="author-image">
+                    <img src="logo/logo.webp" alt="Logo" class="img-fluid rounded">
+                </div>
                 </Link>
 
                 <div class="d-flex align-items-center">
                     <div class="social-links">
-                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a v-for="r in redSocial" :href="r.link" target="_blank">
+                            <i :class="r.red_social.icon"></i>
+                        </a>
                     </div>
 
-                    <form class="search-form ms-4" @submit.prevent="handleSearch">
-                        <input type="text" placeholder="Search..." class="form-control" v-model="searchQuery">
+                    <form class="search-form ms-4">
+                        <input type="text" placeholder="Search..." class="form-control">
                         <button type="submit" class="btn"><i class="bi bi-search"></i></button>
                     </form>
                 </div>
@@ -28,24 +28,20 @@
                 <nav id="navmenu" class="navmenu">
                     <ul>
                         <li>
-                            <Link href="/" :class="{ active: $page.url === '/' }">Home</Link>
+                            <Link href="/" :class="{ active: $page.url === '/' }">Inicio</Link>
                         </li>
                         <li>
-                            <Link href="/about" :class="{ active: $page.url === '/about' }">About</Link>
+                            <Link href="/about" :class="{ active: $page.url === '/about' }">Sobre Nosotros</Link>
                         </li>
                         <li>
-                            <Link href="/category" :class="{ active: $page.url === '/category' }">Category</Link>
+                            <Link href="/category" :class="{ active: $page.url === '/category' }">Categorias</Link>
                         </li>
                         <li>
-                            <Link href="/blog-details" :class="{ active: $page.url === '/blog-details' }">Blog Details
+                            <Link href="/blog-details" :class="{ active: $page.url === '/blog-details' }">Noticias Detalladas
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/author-profile" :class="{ active: $page.url === '/author-profile' }">Author
-                            Profile</Link>
-                        </li>
                         <li class="dropdown">
-                            <a href="#"><span>Pages</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <a href="#"><span>Secciones</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
                                 <li>
                                     <Link href="/about">About</Link>
@@ -80,7 +76,7 @@
                             </ul>
                         </li>
                         <li>
-                            <Link href="/contact" :class="{ active: $page.url === '/contact' }">Contact</Link>
+                            <Link href="/contact" :class="{ active: $page.url === '/contact' }">Contactanos</Link>
                         </li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -89,22 +85,19 @@
         </div>
     </header>
 </template>
-
-<script setup lang="ts">
+<script>
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
 
-interface Props {
-    siteName?: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    siteName: 'Blogy'
-});
-
-const searchQuery = ref('');
-
-const handleSearch = () => {
-    console.log('Searching for:', searchQuery.value);
+export default {
+    props: ['nombre', 'redSocial'],
+    components: {
+        Link
+    },
+    data() {
+        return {
+        };
+    },
+    methods: {
+    }
 };
 </script>

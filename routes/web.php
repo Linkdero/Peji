@@ -18,6 +18,7 @@ require __DIR__ . '/dashboard.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__ . '/apisCategoria/apiCategoria.php';
+require __DIR__ . '/apisTag/apiTag.php';
 require __DIR__ . '/apisNoticia/apiNoticia.php';
 require __DIR__ . '/apisModulo/apisModulo.php';
-require __DIR__ . '/apisTag/apiTag.php';
+require __DIR__ . '/apisEmpresa/apiEmpresa.php';
