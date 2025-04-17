@@ -74,4 +74,17 @@ class CategoriaController extends Controller
             'data' => $categorias
         ]);
     }
+
+    public function getCategoriasConteoNoticias()
+    {
+        $categorias = Categoria::withCount(['noticias' => function ($query) {
+            $query->where('id_estado', 1);
+        }])->get()
+            ->makeHidden(['created_at', 'updated_at', 'id_estado']); // Ocultamos los campos
+
+        return response()->json([
+            'success' => true,
+            'data' => $categorias
+        ]);
+    }
 }

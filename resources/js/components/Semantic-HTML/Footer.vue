@@ -1,85 +1,150 @@
 <template>
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer" v-if="datosValidos">
         <div class="container footer-top">
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-6 footer-about">
                     <a href="/" class="logo d-flex align-items-center">
-                        <span class="sitename">Mi Sitio Web</span>
+                        <span class="sitename">
+                            <a href="#" class="logo d-flex align-items-end">
+                                <div class="author-image" v-if="logo">
+                                    <img :src="asset('@@/logo/logo.webp')" alt="Logotipo" class="img-fluid rounded">
+                                </div>
+                            </a>
+                        </span>
                     </a>
-                    <div class="footer-contact pt-3">
-                        <p>A108 Adam Street</p>
-                        <p>New York, NY 535022</p>
-                        <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-                        <p><strong>Email:</strong> <span>info@example.com</span></p>
+                    <div class="footer-contact">
+                        <p v-if="direccionPrincipal">{{ direccionPrincipal }}</p>
+                        <p class="" v-if="telefonoPrincipal">
+                            <strong>Télefono:</strong> <span>{{ telefonoPrincipal }}</span>
+                        </p>
+                        <p v-if="correoPrincipal">
+                            <strong>Correos:</strong> <span>{{ correoPrincipal }}</span>
+                        </p>
                     </div>
-                    <div class="social-links d-flex mt-4">
-                        <a href="#" target="_blank" rel="noopener">
-                            <i class="bi bi-twitter-x"></i>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener">
-                            <i class="bi bi-linkedin"></i>
+                    <div class="social-links d-flex mt-4" v-if="redSocial.length > 0">
+                        <a target="_blank" rel="noopener" v-for="(red, index) in redSocial" :key="index"
+                            :href="red.link">
+                            <i :class="red.red_social?.icon || 'bi bi-link'"></i>
                         </a>
                     </div>
                 </div>
 
                 <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Useful Links</h4>
+                    <h4>Enlaces Útiles</h4>
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/about">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Terms of service</a></li>
-                        <li><a href="#">Privacy policy</a></li>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/about">Nosotros</a></li>
+                        <li><a href="#">Servicios</a></li>
+                        <li><a href="#">Términos de servicio</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Our Services</h4>
+                    <h4>Nuestros Servicios</h4>
                     <ul>
-                        <li><a href="#">Web Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Product Management</a></li>
-                        <li><a href="#">Marketing</a></li>
-                        <li><a href="#">Graphic Design</a></li>
+                        <li v-for="c in categorias" :value="c.id_categoria" :key="c.id_categoria">
+                            <a href="#">{{ c.categoria_detalle }}</a>
+                        </li>
                     </ul>
                 </div>
 
                 <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Hic solutasetp</h4>
+                    <h4>Recursos</h4>
                     <ul>
-                        <li><a href="#">Molestiae accusamus iure</a></li>
-                        <li><a href="#">Excepturi dignissimos</a></li>
-                        <li><a href="#">Suscipit distinctio</a></li>
-                        <li><a href="#">Dilecta</a></li>
-                        <li><a href="#">Sit quas consectetur</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Documentación</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Soporte</a></li>
+                        <li><a href="#">Contacto</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Nobis illum</h4>
+                    <h4>Legal</h4>
                     <ul>
-                        <li><a href="#">Ipsam</a></li>
-                        <li><a href="#">Laudantium dolorum</a></li>
-                        <li><a href="#">Dinera</a></li>
-                        <li><a href="#">Trodelas</a></li>
-                        <li><a href="#">Flexo</a></li>
+                        <li><a href="#">Aviso Legal</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Condiciones</a></li>
+                        <li><a href="#">Licencias</a></li>
+                        <li><a href="#">Garantías</a></li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">Mi Sitio Web</strong> <span>All Rights
-                    Reserved</span></p>
+            <p>© 2025 - {{ new Date().getFullYear() }} <span>Copyright</span><strong class="px-1 sitename">{{ nombre || 'Mi Empresa'
+                    }}</strong>
+                <span>Todos los Derechos Reservados</span>
+            </p>
             <div class="credits">
-                Designed by <a href="https://bootstrapmade.com/" target="_blank" rel="noopener">BootstrapMade</a>
+                Diseñado por <a href="https://github.com/Linkdero/" target="_blank" rel="noopener">Linkdero</a>
             </div>
         </div>
     </footer>
 </template>
+
+<script>
+import { Link } from '@inertiajs/vue3';
+
+export default {
+    props: {
+        nombre: {
+            type: String,
+            default: ''
+        },
+        redSocial: {
+            type: Array,
+            default: () => [],
+            validator: valor => valor.every(red => red?.enlace && red?.red_social?.icono)
+        },
+        telefono: {
+            type: Array,
+            default: () => [],
+            validator: valor => valor.every(tel => tel?.detalle)
+        },
+        correo: {
+            type: Array,
+            default: () => [],
+            validator: valor => valor.every(correo => correo?.detalle)
+        },
+        logo: {
+            type: String,
+            default: ''
+        },
+        direccion: {
+            type: Array,
+            default: () => [],
+            validator: valor => valor.every(dir => dir?.detalle)
+        },
+        categorias: {
+            type: Array,
+            default: () => [],
+        },
+    },
+    components: {
+        Link
+    },
+    computed: {
+        datosValidos() {
+            return this.logo || this.nombre || this.direccion.length > 0;
+        },
+        direccionPrincipal() {
+            return this.direccion[0]?.direccion_detalle || 'Dirección no disponible';
+        },
+        telefonoPrincipal() {
+            return this.telefono[0]?.telefono_detalle || 'Teléfono no disponible';
+        },
+        correoPrincipal() {
+            return this.correo[0]?.correo_detalle || 'Email no disponible';
+        }
+    },
+    methods: {
+        asset(path) {
+            return `/` + path.replace(/^@@\//, '');
+        }
+    }
+
+};
+</script>

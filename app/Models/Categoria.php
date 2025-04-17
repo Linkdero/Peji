@@ -20,4 +20,9 @@ class Categoria extends Model
     {
         return $this->belongsTo(Estado::class, 'id_estado');
     }
+
+    public function noticias()
+    {
+        return $this->hasMany(Noticia::class, 'id_categoria');
+    }
 }

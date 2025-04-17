@@ -42,18 +42,16 @@ class Noticia extends Model
     }
 
     // Relación con el estado
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria');
+    }
+
+
+    // Relación con el estado
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'id_estado');
-    }
-
-    // Modifica el método toArray para incluir el estado si es necesario
-    public function toArray()
-    {
-        return array_merge(parent::toArray(), [
-            'estado_detalle' => $this->estado->estado_detalle ?? null,
-            'miniatura_url' => $this->miniatura_url
-        ]);
     }
 
     public function tags()

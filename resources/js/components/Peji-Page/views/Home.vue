@@ -1,15 +1,18 @@
 <script>
 import { Link } from '@inertiajs/vue3';
-import NoticiasUltimasPrincipal from '@/components/Peji-Page/components/NoticiasUltimasPrincipal.vue';
-import NoticiasPopulares from '@/components/Peji-Page/components/NoticiasPopulares.vue';
-import NoticiasCategoria from '@/components/Peji-Page/components/NoticiasCategoria.vue';
-import NoticiasOferta from '@/components/Peji-Page/components/NoticiasOferta.vue';
-import NoticiasUltimas from '@/components/Peji-Page/components/NoticiasUltimas.vue';
-import NoticiasSuscripcion from '@/components/Peji-Page/components/NoticiasSuscripcion.vue';
+import NoticiasCarousel from '@/components/Peji-Page/components/inicio/NoticiasCarousel.vue';
+import NoticiasUltimasPrincipal from '@/components/Peji-Page/components/inicio/NoticiasUltimasPrincipal.vue';
+import NoticiasPopulares from '@/components/Peji-Page/components/inicio/NoticiasPopulares.vue';
+import NoticiasCategoria from '@/components/Peji-Page/components/inicio/NoticiasCategoria.vue';
+import NoticiasOferta from '@/components/Peji-Page/components/inicio/NoticiasOferta.vue';
+import NoticiasUltimas from '@/components/Peji-Page/components/inicio/NoticiasUltimas.vue';
+import NoticiasSuscripcion from '@/components/Peji-Page/components/inicio/NoticiasSuscripcion.vue';
 
 export default {
+    props: ['informacion', 'categorias'],
     components: {
         Link,
+        NoticiasCarousel,
         NoticiasUltimasPrincipal,
         NoticiasPopulares,
         NoticiasCategoria,
@@ -21,10 +24,11 @@ export default {
 </script>
 
 <template>
+    <NoticiasCarousel />
     <NoticiasUltimasPrincipal />
     <NoticiasPopulares />
     <NoticiasCategoria />
-    <NoticiasOferta />
+    <!-- <NoticiasOferta /> -->
     <NoticiasUltimas />
-    <NoticiasSuscripcion />
+    <NoticiasSuscripcion :informacion="informacion" />
 </template>

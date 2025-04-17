@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\NoticiaDetalleGaleria;
 use App\Models\NoticiaDetalleTag;
 use App\Models\Tag;
+use Illuminate\Support\Carbon;
 
 class NoticiaController extends Controller
 {
@@ -100,9 +101,190 @@ class NoticiaController extends Controller
     public function getNoticiasActivas()
     {
         $noticias = Noticia::with(['creador', 'estado'])
-            ->where('id_estado', 1) // Estado activo
-            ->orderBy('fecha_creacion', 'desc')
-            ->paginate(10);
+            ->where('id_estado', 1)
+            ->orderBy('fecha_creacion', 'asc')
+            ->get();
+
+        $noticias = $noticias->map(function ($noticia) {
+            // Formatear la fecha
+            $noticia->fecha_creacion = Carbon::parse($noticia->fecha_creacion)->translatedFormat('M. jS, Y');
+
+            // Eliminar timestamps del modelo principal
+            unset($noticia->created_at, $noticia->updated_at);
+
+            // Eliminar datos sensibles del creador
+            if ($noticia->creador) {
+                unset(
+                    $noticia->creador->created_at,
+                    $noticia->creador->updated_at,
+                    $noticia->creador->email,
+                    $noticia->creador->email_verified_at
+                );
+            }
+
+            // Eliminar timestamps del estado
+            if ($noticia->estado) {
+                unset($noticia->estado->created_at, $noticia->estado->updated_at);
+            }
+            if ($noticia->categoria) {
+                unset($noticia->categoria->created_at, $noticia->categoria->updated_at);
+            }
+
+            return $noticia;
+        });
+
+        return response()->json($noticias);
+    }
+
+    public function getPrimerasNoticias()
+    {
+        $noticias = Noticia::with(['creador', 'estado'])
+            ->where('id_estado', 1)
+            ->orderBy('fecha_creacion', 'asc')
+            ->limit(5)
+            ->get();
+
+        $noticias = $noticias->map(function ($noticia) {
+            // Formatear la fecha
+            $noticia->fecha_creacion = Carbon::parse($noticia->fecha_creacion)->translatedFormat('M. jS, Y');
+
+            // Eliminar timestamps del modelo principal
+            unset($noticia->created_at, $noticia->updated_at);
+
+            // Eliminar datos sensibles del creador
+            if ($noticia->creador) {
+                unset(
+                    $noticia->creador->created_at,
+                    $noticia->creador->updated_at,
+                    $noticia->creador->email,
+                    $noticia->creador->email_verified_at
+                );
+            }
+
+            // Eliminar timestamps del estado
+            if ($noticia->estado) {
+                unset($noticia->estado->created_at, $noticia->estado->updated_at);
+            }
+            if ($noticia->categoria) {
+                unset($noticia->categoria->created_at, $noticia->categoria->updated_at);
+            }
+
+            return $noticia;
+        });
+
+        return response()->json($noticias);
+    }
+
+    public function getUltimasNoticias()
+    {
+        $noticias = Noticia::with(['creador', 'estado'])
+            ->where('id_estado', 1)
+            ->orderBy('id_noticia', 'desc')
+            ->limit(5)
+            ->get();
+
+        $noticias = $noticias->map(function ($noticia) {
+            // Formatear la fecha
+            $noticia->fecha_creacion = Carbon::parse($noticia->fecha_creacion)->translatedFormat('M. jS, Y');
+
+            // Eliminar timestamps del modelo principal
+            unset($noticia->created_at, $noticia->updated_at);
+
+            // Eliminar datos sensibles del creador
+            if ($noticia->creador) {
+                unset(
+                    $noticia->creador->created_at,
+                    $noticia->creador->updated_at,
+                    $noticia->creador->email,
+                    $noticia->creador->email_verified_at
+                );
+            }
+
+            // Eliminar timestamps del estado
+            if ($noticia->estado) {
+                unset($noticia->estado->created_at, $noticia->estado->updated_at);
+            }
+
+            // Eliminar timestamps del estado
+            if ($noticia->categoria) {
+                unset($noticia->categoria->created_at, $noticia->categoria->updated_at);
+            }
+
+            return $noticia;
+        });
+
+        return response()->json($noticias);
+    }
+
+    public function getNoticiasFiltradas(Request $request)
+    {
+        $query = Noticia::with(['creador', 'estado', 'categoria', 'tags'])
+            ->where('id_estado', 1);
+
+        // Filtro por categoría
+        if ($request->filled('id_categoria')) {
+            $query->where('id_categoria', $request->id_categoria);
+        }
+
+        // Filtro por tags (pueden ser IDs o nombres)
+        if ($request->filled('tags')) {
+            $tags = is_string($request->tags) ? json_decode($request->tags, true) : $request->tags;
+
+            $query->whereHas('tags', function ($q) use ($tags) {
+                $q->where(function ($subQuery) use ($tags) {
+                    foreach ($tags as $tag) {
+                        if (is_numeric($tag)) {
+                            $subQuery->orWhere('tbl_tag.id_tag', $tag);
+                        } else {
+                            $subQuery->orWhere('tbl_tag.tag_detalle', 'like', '%' . $tag . '%');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Ordenar por fecha de creación descendente
+        $query->orderBy('fecha_creacion', 'desc');
+
+        // Paginación con 10 elementos por página
+        $perPage = $request->input('per_page', 10); // Permite cambiar el número de elementos por página
+        $noticias = $query->paginate($perPage);
+
+        // Limpiar y formatear datos
+        $noticias->getCollection()->transform(function ($noticia) {
+            $noticia->fecha_creacion = Carbon::parse($noticia->fecha_creacion)->translatedFormat('M. jS, Y');
+
+            unset($noticia->created_at, $noticia->updated_at);
+
+            if ($noticia->creador) {
+                unset(
+                    $noticia->creador->created_at,
+                    $noticia->creador->updated_at,
+                    $noticia->creador->email,
+                    $noticia->creador->email_verified_at
+                );
+            }
+
+            if ($noticia->estado) {
+                unset($noticia->estado->created_at, $noticia->estado->updated_at);
+            }
+
+            if ($noticia->categoria) {
+                unset($noticia->categoria->created_at, $noticia->categoria->updated_at);
+            }
+
+            if ($noticia->tags) {
+                foreach ($noticia->tags as $tag) {
+                    unset($tag->created_at, $tag->updated_at);
+
+                    if (isset($tag->pivot)) {
+                        unset($tag->pivot->created_at, $tag->pivot->updated_at);
+                    }
+                }
+            }
+
+            return $noticia;
+        });
 
         return response()->json($noticias);
     }

@@ -9,7 +9,20 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/js/app.ts'],
+            input: [
+                'resources/css/bootstrap.min.css',
+                'resources/css/bootstrap-icons.css',
+                'resources/css/swiper-bundle.min.css',
+                'resources/css/glightbox.min.css',
+                'resources/css/main.css',
+                'resources/js/app.ts',
+                'resources/js/assets/bootstrap.bundle.min.js',
+                'resources/js/assets/validate.js',
+                'resources/js/assets/swiper-bundle.min.js',
+                'resources/js/assets/purecounter_vanilla.js',
+                'resources/js/assets/glightbox.min.js',
+                'resources/js/assets/main.js',
+            ],
             ssr: 'resources/js/ssr.ts',
             refresh: true,
         }),
@@ -37,6 +50,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
+            '@@': path.resolve(__dirname, './public'),
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },

@@ -5,8 +5,11 @@
  * Author: BootstrapMade.com
  * License: https://bootstrapmade.com/license/
  */
+import PureCounter from '@srexi/purecounterjs';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; 
+import 'aos/dist/aos.css';
+import GLightbox from 'glightbox';
+import 'glightbox/dist/css/glightbox.min.css';
 (function () {
     'use strict';
 
@@ -36,43 +39,41 @@ import 'aos/dist/aos.css';
      */
 
     setTimeout(() => {
-          
-    const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+        const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
 
-    function mobileNavToogle() {
-        document.querySelector('body').classList.toggle('mobile-nav-active');
-        mobileNavToggleBtn.classList.toggle('bi-list');
-        mobileNavToggleBtn.classList.toggle('bi-x');
-    }
-    if (mobileNavToggleBtn) {
-        mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
-    }
+        function mobileNavToogle() {
+            document.querySelector('body').classList.toggle('mobile-nav-active');
+            mobileNavToggleBtn.classList.toggle('bi-list');
+            mobileNavToggleBtn.classList.toggle('bi-x');
+        }
+        if (mobileNavToggleBtn) {
+            mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+        }
 
-    /**
-     * Hide mobile nav on same-page/hash links
-     */
-    document.querySelectorAll('#navmenu a').forEach((navmenu) => {
-        navmenu.addEventListener('click', () => {
-            if (document.querySelector('.mobile-nav-active')) {
-                mobileNavToogle();
-            }
+        /**
+         * Hide mobile nav on same-page/hash links
+         */
+        document.querySelectorAll('#navmenu a').forEach((navmenu) => {
+            navmenu.addEventListener('click', () => {
+                if (document.querySelector('.mobile-nav-active')) {
+                    mobileNavToogle();
+                }
+            });
         });
-    });
 
-    /**
-     * Toggle mobile nav dropdowns
-     */
-    document.querySelectorAll('.navmenu .toggle-dropdown').forEach((navmenu) => {
-        navmenu.addEventListener('click', function (e) {
-            e.preventDefault();
-            this.parentNode.classList.toggle('active');
-            this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
-            e.stopImmediatePropagation();
+        /**
+         * Toggle mobile nav dropdowns
+         */
+        document.querySelectorAll('.navmenu .toggle-dropdown').forEach((navmenu) => {
+            navmenu.addEventListener('click', function (e) {
+                e.preventDefault();
+                this.parentNode.classList.toggle('active');
+                this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
+                e.stopImmediatePropagation();
+            });
         });
-    });
         console.log('Navbar Moviles.');
     }, '1000');
-
 
     /**
      * Preloader
@@ -141,12 +142,13 @@ import 'aos/dist/aos.css';
     /**
      * Initiate Pure Counter
      */
-    new PureCounter();
-
+    document.addEventListener('DOMContentLoaded', function () {
+        new PureCounter();
+    });
     /**
      * Initiate glightbox
      */
-    const glightbox = GLightbox({
-        selector: '.glightbox',
+    document.addEventListener('DOMContentLoaded', () => {
+        const lightbox = GLightbox(); // Inicializa GLightbox
     });
 })();

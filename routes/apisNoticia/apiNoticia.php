@@ -10,5 +10,14 @@ Route::name('apiNoticia.')->prefix('apiNoticia')->group(function () {
         ->name('noticias.activas');
 
     Route::post('noticias/setNuevaNoticia', [NoticiaController::class, 'store'])
-        ->name('noticias.activas');
+        ->name('noticias.nuevas');
+
+    Route::get('noticias/getPrimerasNoticias', [NoticiaController::class, 'getPrimerasNoticias'])
+        ->name('noticias.primeras');
+
+    Route::get('noticias/getUltimasNoticias', [NoticiaController::class, 'getUltimasNoticias'])
+        ->name('noticias.ultimas');
+
+    Route::get('noticias/getNoticiasFiltradas', [NoticiaController::class, 'getNoticiasFiltradas'])
+        ->name('noticias.filtradas');
 });
