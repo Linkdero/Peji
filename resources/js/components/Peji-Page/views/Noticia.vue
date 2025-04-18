@@ -1,3 +1,37 @@
+<script>
+import NoticiaMiniatura from '@/components/Peji-Page/components/noticia/NoticiaMiniatura.vue';
+import NoticiaAutor from '@/components/Peji-Page/components/noticia/NoticiaAutor.vue';
+import NoticiaAutorInformacion from '@/components/Peji-Page/components/noticia/NoticiaAutorInformacion.vue';
+import NoticiaComentarios from '@/components/Peji-Page/components/noticia/NoticiaComentarios.vue';
+import NoticiaComentar from '@/components/Peji-Page/components/noticia/NoticiaComentar.vue';
+import NoticiaGaleria from '@/components/Peji-Page/components/noticia/NoticiaGaleria.vue';
+
+export default {
+    props: {
+        noticia: Object,
+        informacionUsuario: Object,
+    },
+    data() {
+        return {
+            keyComentarios: 0,
+        }
+    },
+    components: {
+        NoticiaMiniatura,
+        NoticiaAutor,
+        NoticiaAutorInformacion,
+        NoticiaComentarios,
+        NoticiaComentar,
+        NoticiaGaleria
+    },
+    methods:{
+        recargaComentarios() {
+            this.keyComentarios++;
+        },
+    },
+}
+</script>
+
 <template>
     <div class="container">
         <div class="row">
@@ -22,39 +56,13 @@
                 <NoticiaAutorInformacion :informacion="noticia" />
                 <NoticiaGaleria :informacion="noticia" />
 
-                <NoticiaComentarios />
+                <NoticiaComentarios :informacion="noticia" :informacionUsuario="informacionUsuario" :key="keyComentarios"/>
 
-                <NoticiaComentar :informacion="noticia" />
+                <NoticiaComentar :informacion="noticia" :informacionUsuario="informacionUsuario" @comentario-nuevo="recargaComentarios()"/>
             </div>
         </div>
     </div>
 </template>
-
-<script>
-import NoticiaMiniatura from '@/components/Peji-Page/components/noticia/NoticiaMiniatura.vue';
-import NoticiaAutor from '@/components/Peji-Page/components/noticia/NoticiaAutor.vue';
-import NoticiaAutorInformacion from '@/components/Peji-Page/components/noticia/NoticiaAutorInformacion.vue';
-import NoticiaComentarios from '@/components/Peji-Page/components/noticia/NoticiaComentarios.vue';
-import NoticiaComentar from '@/components/Peji-Page/components/noticia/NoticiaComentar.vue';
-import NoticiaGaleria from '@/components/Peji-Page/components/noticia/NoticiaGaleria.vue';
-
-export default {
-    props: {
-        noticia: Object,
-    },
-    components: {
-        NoticiaMiniatura,
-        NoticiaAutor,
-        NoticiaAutorInformacion,
-        NoticiaComentarios,
-        NoticiaComentar,
-        NoticiaGaleria
-    },
-    created() {
-        console.log('Noticia', this.noticia)
-    },
-}
-</script>
 
 <style scoped>
 .noticia-container {

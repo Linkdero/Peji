@@ -64,4 +64,26 @@ class Noticia extends Model
     {
         return $this->hasMany(NoticiaDetalleGaleria::class, 'id_noticia');
     }
+
+    // Agrega estos métodos a tu modelo Noticia existente
+
+    public function comentarios()
+    {
+        return $this->hasMany(NoticiaComentario::class, 'id_noticia');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(NoticiaLike::class, 'id_noticia');
+    }
+
+    public function countComentarios()
+    {
+        return $this->comentarios()->count();
+    }
+
+    public function countLikes()
+    {
+        return $this->likes()->count();
+    }
 }

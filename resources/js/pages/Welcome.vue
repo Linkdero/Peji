@@ -9,6 +9,7 @@ import Category from '../components/Peji-Page/views/Category.vue';
 import Noticia from '../components/Peji-Page/views/Noticia.vue';
 import 'aos/dist/aos.css';
 import axios from 'axios';
+import { useUsuarioStore } from '@/store/usuarioStore';
 
 export default {
     components: {
@@ -22,9 +23,11 @@ export default {
             componenteActual: null,
             informacionEmpresa: [],
             categorias: [],
+            informacionUsuario: [],
         }
     },
     created() {
+        this.getInformacionUsuarioPagina();
         this.getInformacionEmpresa();
         this.getCategorias();
     },
@@ -71,6 +74,15 @@ export default {
                 console.error('Error al obtener categorias:', error);
             }
         },
+        async getInformacionUsuarioPagina() {
+            try {
+                this.informacionUsuario = useUsuarioStore().$state;
+                console.log('Información del usuario:', this.informacionUsuario);
+            } catch (error) {
+                console.error('Error al obtener información del usuario:', error);
+            }
+        },
+
     }
 }
 </script>
@@ -84,7 +96,7 @@ export default {
             class="duration-750 starting:opacity-0 flex w-full items-center justify-center opacity-100 transition-opacity lg:grow">
             <div class="main">
                 <component :is="componenteActual || Home" :informacion="informacionEmpresa" :categorias="categorias"
-                    :noticia="$page.props.noticia || null" />
+                    :noticia="$page.props.noticia || null" :informacionUsuario="informacionUsuario" />
             </div>
         </div>
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">

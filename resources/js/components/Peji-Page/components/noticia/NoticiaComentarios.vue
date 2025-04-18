@@ -1,64 +1,35 @@
 <template>
     <section id="blog-comments" class="blog-comments section">
-
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-
             <div class="blog-comments-3">
                 <div class="section-header">
-                    <h3>Discussion <span class="comment-count">(8)</span></h3>
+                    <h3>{{ titulo }} <span class="comment-count">({{ comentarios.length }})</span></h3>
                 </div>
 
                 <div class="comments-wrapper">
-                    <!-- Comment 1 -->
-                    <article class="comment-card">
+                    <article class="comment-card" v-for="comentario in comentarios" :key="comentario.id_comentario">
                         <div class="comment-header">
                             <div class="user-info">
-                                <img src="assets/img/person/person-f-9.webp" alt="User avatar" loading="lazy">
+                                <img src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
+                                    alt="User avatar" loading="lazy">
                                 <div class="meta">
-                                    <h4 class="name">Sarah Williams</h4>
-                                    <span class="date"><i class="bi bi-calendar3"></i> February 13,
-                                        2025</span>
+                                    <h4 class="name">{{ comentario.usuario.usuario_nombre }}</h4>
+                                    <span class="date">
+                                        <i class="bi bi-calendar3"></i>
+                                        {{ new Date(comentario.created_at).toLocaleDateString() }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-content">
-                            <p>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum
-                                suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et.
-                                Maecen aliquam, risus at semper.</p>
-                        </div>
-                        <div class="comment-actions">
-                            <button class="action-btn like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                                <span>12</span>
-                            </button>
-                            <button class="action-btn reply-btn">
-                                <i class="bi bi-reply"></i>
-                                <span>Reply</span>
-                            </button>
-                        </div>
-                    </article>
 
-                    <!-- Comment 2 with replies -->
-                    <article class="comment-card">
-                        <div class="comment-header">
-                            <div class="user-info">
-                                <img src="assets/img/person/person-m-9.webp" alt="User avatar" loading="lazy">
-                                <div class="meta">
-                                    <h4 class="name">James Cooper</h4>
-                                    <span class="date"><i class="bi bi-calendar3"></i> February 13,
-                                        2025</span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="comment-content">
-                            <p>Quisque ut nisi. Donec mi odio, faucibus at, scelerisque quis, convallis in,
-                                nisi. Suspendisse non nisl sit amet velit hendrerit rutrum. Ut leo. Ut a
-                                nisl id ante tempus hendrerit.</p>
+                            <p>{{ comentario.comentario_detalle }}</p>
                         </div>
+
                         <div class="comment-actions">
                             <button class="action-btn like-btn">
                                 <i class="bi bi-hand-thumbs-up"></i>
-                                <span>8</span>
+                                <span>{{ comentario.likes.length }}</span>
                             </button>
                             <button class="action-btn reply-btn">
                                 <i class="bi bi-reply"></i>
@@ -66,29 +37,29 @@
                             </button>
                         </div>
 
-                        <!-- Reply Thread -->
-                        <div class="reply-thread">
-                            <!-- Reply 1 -->
-                            <article class="comment-card reply">
+                        <!-- Respuestas -->
+                        <div class="reply-thread" v-if="comentario.respuestas.length > 0">
+                            <article class="comment-card reply" v-for="respuesta in comentario.respuestas"
+                                :key="respuesta.id_comentario">
                                 <div class="comment-header">
                                     <div class="user-info">
                                         <img src="assets/img/person/person-f-9.webp" alt="User avatar" loading="lazy">
                                         <div class="meta">
-                                            <h4 class="name">Emily Parker</h4>
-                                            <span class="date"><i class="bi bi-calendar3"></i> February 13,
-                                                2025</span>
+                                            <h4 class="name">{{ respuesta.usuario.usuario_nombre }}</h4>
+                                            <span class="date">
+                                                <i class="bi bi-calendar3"></i>
+                                                {{ new Date(respuesta.created_at).toLocaleDateString() }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="comment-content">
-                                    <p>Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-                                        Curae.</p>
+                                    <p>{{ respuesta.comentario_detalle }}</p>
                                 </div>
                                 <div class="comment-actions">
                                     <button class="action-btn like-btn">
                                         <i class="bi bi-hand-thumbs-up"></i>
-                                        <span>5</span>
+                                        <span>{{ respuesta.likes.length }}</span>
                                     </button>
                                     <button class="action-btn reply-btn">
                                         <i class="bi bi-reply"></i>
@@ -96,69 +67,11 @@
                                     </button>
                                 </div>
                             </article>
-
-                            <!-- Reply 2 -->
-                            <article class="comment-card reply">
-                                <div class="comment-header">
-                                    <div class="user-info">
-                                        <img src="assets/img/person/person-f-7.webp" alt="User avatar" loading="lazy">
-                                        <div class="meta">
-                                            <h4 class="name">Daniel Brown</h4>
-                                            <span class="date"><i class="bi bi-calendar3"></i> February 13,
-                                                2025</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment-content">
-                                    <p>Nam commodo suscipit quam. Vestibulum ullamcorper mauris at ligula.
-                                        Fusce fermentum odio nec arcu.</p>
-                                </div>
-                                <div class="comment-actions">
-                                    <button class="action-btn like-btn">
-                                        <i class="bi bi-hand-thumbs-up"></i>
-                                        <span>3</span>
-                                    </button>
-                                    <button class="action-btn reply-btn">
-                                        <i class="bi bi-reply"></i>
-                                        <span>Reply</span>
-                                    </button>
-                                </div>
-                            </article>
-                        </div>
-                    </article>
-
-                    <!-- Comment 3 -->
-                    <article class="comment-card">
-                        <div class="comment-header">
-                            <div class="user-info">
-                                <img src="assets/img/person/person-m-6.webp" alt="User avatar" loading="lazy">
-                                <div class="meta">
-                                    <h4 class="name">Rachel Adams</h4>
-                                    <span class="date"><i class="bi bi-calendar3"></i> February 13,
-                                        2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-content">
-                            <p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo
-                                ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-                        </div>
-                        <div class="comment-actions">
-                            <button class="action-btn like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                                <span>6</span>
-                            </button>
-                            <button class="action-btn reply-btn">
-                                <i class="bi bi-reply"></i>
-                                <span>Reply</span>
-                            </button>
                         </div>
                     </article>
                 </div>
             </div>
-
         </div>
-
     </section>
 </template>
 <script>
@@ -166,7 +79,7 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 
 export default {
-    props: ['informacion'],
+    props: ['informacion', 'informacionUsuario'],
     components: {
         Head,
         Link,
@@ -174,15 +87,28 @@ export default {
 
     data() {
         return {
-            titulo: 'Acerca de:',
+            titulo: 'Comentarios:',
+            comentarios:[]
         }
     },
     created() {
+        console.log('Informacion:', this.informacion);
+        this.getComentariosNoticia();
     },
     methods: {
         asset(path) {
             return `/` + path.replace(/^@@\//, '');
-        }
+        },
+        async getComentariosNoticia() {
+            try {
+                const response = await axios.get(`/apiNoticia/${this.informacion.id_noticia}/getComentariosNoticia`);
+                this.comentarios = response.data.comentarios;
+                console.log('Comentarios:', this.comentarios);
+            } catch (error) {
+                console.error('Error al obtener comentarios filtradas:', error);
+            } finally {
+            }
+        },
     }
 }
 </script>

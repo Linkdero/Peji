@@ -4,7 +4,9 @@
         <div class="post-item" v-for="u in ultimasNoticias">
             <img :src="'/noticias/miniaturas/' + u.miniatura" alt="" class="flex-shrink-0">
             <div>
-                <h4><a href="blog-details.html">{{ u.noticia_titulo }}</a></h4>
+                <h4>
+                    <Link :href="`/noticia/${u.id_noticia}`">{{ u.noticia_titulo }}</Link>
+                </h4>
                 <time datetime="2020-01-01">{{ u.fecha_creacion }}</time>
             </div>
         </div>

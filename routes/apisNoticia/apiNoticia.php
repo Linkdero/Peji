@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoticiaController;
+use App\Http\Controllers\NoticiaComentarioController;
 
 // Rutas API Públicas
 Route::name('apiNoticia.')->prefix('apiNoticia')->group(function () {
@@ -20,4 +21,7 @@ Route::name('apiNoticia.')->prefix('apiNoticia')->group(function () {
 
     Route::get('noticias/getNoticiasFiltradas', [NoticiaController::class, 'getNoticiasFiltradas'])
         ->name('noticias.filtradas');
+
+    Route::post('{noticia}/setNuevoComentario', [NoticiaComentarioController::class, 'setNuevoComentario']);
+    Route::get('{noticia}/getComentariosNoticia', [NoticiaComentarioController::class, 'getComentariosNoticia']);
 });

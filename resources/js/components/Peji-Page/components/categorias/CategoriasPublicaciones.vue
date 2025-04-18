@@ -26,7 +26,7 @@
                             <p class="post-category">{{ noticia.categoria.categoria_detalle }}</p>
 
                             <h2 class="title">
-                                <a :href="`/noticias/${noticia.id_noticia}`">{{ noticia.noticia_titulo }}</a>
+                                <Link :href="`/noticia/${noticia.id_noticia}`">{{ noticia.noticia_titulo }}</Link>
                             </h2>
 
                             <div class="d-flex align-items-center">

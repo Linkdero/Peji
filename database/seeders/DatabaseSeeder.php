@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             DiaSeeder::class,
             RedSocialSeeder::class,
             EmpresaSeeder::class,
+            UsuarioPaginaSeeder::class,
         ]);
     }
 }
