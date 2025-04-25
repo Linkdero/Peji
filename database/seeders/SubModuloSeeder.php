@@ -23,6 +23,12 @@ class SubModuloSeeder extends Seeder
             ['id_modulo' => 3, 'sub_modulo_detalle' => 'Categorias', 'activo' => true],
             ['id_modulo' => 3, 'sub_modulo_detalle' => 'Tags', 'activo' => true],
 
+            // Submódulos para Componentes
+            ['id_modulo' => 4, 'sub_modulo_detalle' => 'Carousel', 'activo' => true],
+
+            // Submódulos para Empresa
+            ['id_modulo' => 5, 'sub_modulo_detalle' => 'Información', 'activo' => true],
+
         ];
 
         foreach ($submodulos as $submodulo) {

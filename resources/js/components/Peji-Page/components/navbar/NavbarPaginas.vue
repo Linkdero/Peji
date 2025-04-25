@@ -4,13 +4,13 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li>
-                        <Link href="/" :class="{ active: $page.url === '/' }">Inicio</Link>
-                    </li>
-                    <li>
-                        <Link href="/about" :class="{ active: $page.url === '/about' }">Sobre Nosotros</Link>
+                        <Link href="/" :class="{ active: $page.url === '/' }" >Inicio</Link>
                     </li>
                     <li>
                         <Link href="/category" :class="{ active: $page.url === '/category' }">Catálogo</Link>
+                    </li>
+                    <li>
+                        <Link href="/about" :class="{ active: $page.url === '/about' }">Sobre Nosotros</Link>
                     </li>
                     <!-- <li class="dropdown">
                         <a href="#"><span>Secciones</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -71,6 +71,7 @@ export default {
         }
     },
     created() {
-console.log("Navbar funcionando")    },
+        console.log("Navbar funcionando")
+    },
 }
 </script>

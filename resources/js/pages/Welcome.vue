@@ -109,3 +109,9 @@ export default {
             :categorias="categorias || []" />
     </div>
 </template>
+
+<style scoped>
+.index-page {
+    background-image: url('/assets/fondo1.webp') !important;
+}
+</style>

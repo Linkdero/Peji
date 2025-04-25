@@ -3,7 +3,6 @@ import { Head, Link } from '@inertiajs/vue3';
 import Navbar from '@/components/Peji-Admin/Navbar.vue';
 import Footer from '@/components/Peji-Admin/Footer.vue';
 import Sidebar from '@/components/Peji-Admin/Sidebar.vue';
-import Principal from '@/components/Peji-Admin/views/Dashboard/Principal.vue';
 
 import axios from 'axios';
 
@@ -22,9 +21,13 @@ export default {
             loading: true,
             error: null,
             componenterDefault: null,
+            key: 0,
+            informacion: []
         }
     },
     async created() {
+        this.componenterDefault = (await import('@/components/Peji-Admin/views/Dashboard/Principal.vue')).default;
+        await this.getInformacionEmpresa();
         await this.getCargarModulos();
         this.componenterDefault = Principal;
     },
@@ -58,7 +61,21 @@ export default {
                     }
                 }
             }
-        }
+        },
+        async getInformacionEmpresa() {
+            try {
+                const response = await axios.get('/apiEmpresa/empresa/getInformacionEmpresa');
+                this.informacion = response.data;
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error al cargar información',
+                    icon: 'error',
+                    timer: 1500,
+                    showConfirmButton: false,
+                })
+            }
+        },
     },
     computed: {
         componenteActual() {
@@ -76,20 +93,21 @@ export default {
 </script>
 
 <template>
+
     <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
         data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
         data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
         data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
         <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
             <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
-                <Navbar siteName="Mi Blog Personal" />
+                <Navbar :key="'Navbar-' + key" />
                 <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
-                    <Sidebar siteName="Mi Blog Personal" />
+                    <Sidebar :key="'Sidebar-' + key" />
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
                         <div class="d-flex flex-column flex-column-fluid">
-                            <component :is="componenteActual" />
+                            <component :is="componenteActual" :informacion="informacion" />
                         </div>
-                        <Footer siteName="Mi Blog Personal" />
+                        <Footer :key="'Footer-' + key" />
                     </div>
                 </div>
             </div>

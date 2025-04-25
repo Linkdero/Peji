@@ -30,7 +30,66 @@
     <script>
         var hostUrl = "{{ asset('admin/assets/') }}/";
 
+        // Bandera para indicar si los scripts ya fueron cargados
+        window.adminScriptsLoaded = false;
+
+        // Función para reinicializar los componentes de la interfaz de administrador
+        window.reinitAdminUI = function() {
+            console.log('Reinicializando componentes de Admin UI...');
+
+            // Reinicializar KTApp (si existe)
+            if (typeof KTApp !== 'undefined') {
+                if (typeof KTApp.init === 'function') {
+                    KTApp.init();
+                }
+
+                // Tooltips
+                if (typeof KTApp.initBootstrapTooltips === 'function') {
+                    KTApp.initBootstrapTooltips();
+                }
+
+                // Popovers
+                if (typeof KTApp.initBootstrapPopovers === 'function') {
+                    KTApp.initBootstrapPopovers();
+                }
+            }
+
+            // Reinicializar DataTables
+            if (typeof $.fn !== 'undefined' && typeof $.fn.dataTable !== 'undefined') {
+                $('.datatable').each(function() {
+                    if ($.fn.dataTable.isDataTable(this)) {
+                        $(this).DataTable().destroy();
+                    }
+                    $(this).DataTable({
+                        responsive: true
+                    });
+                });
+            }
+
+            // Reinicializar cualquier otro componente según sea necesario
+            // Por ejemplo, Select2, DatePickers, etc.
+            if (typeof $.fn.select2 !== 'undefined') {
+                $('.select2').select2();
+            }
+
+            // Reinicializar dropdowns, sidebars u otros componentes de la UI
+            document.querySelectorAll('[data-kt-menu]').forEach(function(element) {
+                if (typeof KTMenu !== 'undefined') {
+                    new KTMenu(element);
+                }
+            });
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Si ya cargamos los scripts, solo reinicializamos los componentes
+            if (window.adminScriptsLoaded) {
+                window.reinitAdminUI();
+                return;
+            }
+
+            // Marcamos que ya cargamos los scripts
+            window.adminScriptsLoaded = true;
+
             // 1️⃣ Global JS Bundle
             loadScript("{{ asset('admin/assets/plugins/global/plugins.bundle.js') }}");
             loadScript("{{ asset('admin/assets/js/scripts.bundle.js') }}", function() {
@@ -58,11 +117,20 @@
                     loadScript("{{ asset('admin/assets/js/custom/utilities/modals/create-app.js') }}");
                     loadScript("{{ asset('admin/assets/js/custom/utilities/modals/new-target.js') }}");
                     loadScript("{{ asset('admin/assets/js/custom/utilities/modals/users-search.js') }}");
+
+                    // Inicializar componentes después de cargar todos los scripts
+                    window.reinitAdminUI();
                 });
             });
         });
 
         function loadScript(src, callback) {
+            // Evitar cargar el mismo script más de una vez
+            if (document.querySelector('script[src="' + src + '"]')) {
+                if (callback) callback();
+                return;
+            }
+
             var script = document.createElement('script');
             script.src = src;
             script.async = false; // Para mantener el orden de ejecución
@@ -71,6 +139,16 @@
             }
             document.body.appendChild(script);
         }
+
+        // Escuchar el evento de navegación de Inertia
+        document.addEventListener('inertia:finish', function() {
+            // Usar setTimeout para asegurarnos de que se ejecute después de que el DOM se haya actualizado
+            setTimeout(function() {
+                if (window.reinitAdminUI) {
+                    window.reinitAdminUI();
+                }
+            }, 0);
+        });
     </script>
 </body>
 

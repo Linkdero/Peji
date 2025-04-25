@@ -24,4 +24,6 @@ Route::name('apiNoticia.')->prefix('apiNoticia')->group(function () {
 
     Route::post('{noticia}/setNuevoComentario', [NoticiaComentarioController::class, 'setNuevoComentario']);
     Route::get('{noticia}/getComentariosNoticia', [NoticiaComentarioController::class, 'getComentariosNoticia']);
+    Route::get('noticias/getNoticiasEstados', [NoticiaController::class, 'getNoticiasEstados'])
+        ->name('noticias.estados');
 });

@@ -6,7 +6,7 @@
         </div>
         <div class="container" data-aos="fade-up" data-aos-delay="100">
             <div v-if="informacion.galeria_imagenes && informacion.galeria_imagenes.length > 0"
-                id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
                 <!-- Indicadores -->
                 <div class="carousel-indicators">
                     <button v-for="(imagen, index) in informacion.galeria_imagenes" :key="imagen.id" type="button"
@@ -71,10 +71,37 @@ export default {
 }
 </script>
 <style scoped>
-.carousel-img {
+.carousel-inner {
+    position: relative;
+    width: 100%;
     height: 500px;
-    /* Puedes ajustar el alto a lo que necesites */
+    /* Tamaño fijo del contenedor */
+    overflow: hidden;
+}
+
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item.active {
+    position: relative;
+    opacity: 1;
+    z-index: 1;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
+    aspect-ratio: 16 / 9;
+    /* Relación de aspecto fija (opcional, ayuda en pantallas responsivas) */
+    display: block;
 }
 </style>

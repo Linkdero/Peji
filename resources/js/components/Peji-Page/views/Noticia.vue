@@ -24,11 +24,30 @@ export default {
         NoticiaComentar,
         NoticiaGaleria
     },
-    methods:{
+    methods: {
         recargaComentarios() {
             this.keyComentarios++;
         },
+        // Nueva función para procesar el HTML
+        processHtmlContent(html) {
+            if (!html) return '';
+            
+            // Reemplazar entidades HTML para iframes
+            let processedHtml = html
+                .replace(/&lt;iframe/g, '<iframe')
+                .replace(/&lt;\/iframe&gt;/g, '</iframe>')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"');
+            
+            return processedHtml;
+        }
     },
+    computed: {
+        // Computed property para el contenido procesado
+        processedContent() {
+            return this.processHtmlContent(this.noticia.noticia_detalle);
+        }
+    }
 }
 </script>
 
@@ -45,9 +64,8 @@ export default {
                                     <h1 class="title">{{ noticia.noticia_titulo }} </h1>
                                     <NoticiaAutor :informacion="noticia" />
                                 </div>
-                                <div class="content">
-                                    {{ noticia.noticia_detalle }}
-                                </div>
+                                <!-- Usamos la propiedad computada aquí -->
+                                <div class="content" v-html="processedContent"></div>
                             </div>
                         </article>
                     </div>
@@ -56,16 +74,40 @@ export default {
                 <NoticiaAutorInformacion :informacion="noticia" />
                 <NoticiaGaleria :informacion="noticia" />
 
-                <NoticiaComentarios :informacion="noticia" :informacionUsuario="informacionUsuario" :key="keyComentarios"/>
+                <NoticiaComentarios :informacion="noticia" :informacionUsuario="informacionUsuario"
+                    :key="keyComentarios" />
 
-                <NoticiaComentar :informacion="noticia" :informacionUsuario="informacionUsuario" @comentario-nuevo="recargaComentarios()"/>
+                <NoticiaComentar :informacion="noticia" :informacionUsuario="informacionUsuario"
+                    @comentario-nuevo="recargaComentarios()" />
             </div>
         </div>
     </div>
 </template>
-
 <style scoped>
-.noticia-container {
-    padding: 1rem;
+/* Estilos para hacer iframes responsivos */
+.content>>>iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    /* Ajusta según la proporción que necesites */
+    border: none;
+    margin: 1rem 0;
+}
+
+/* Contenedor adicional para iframes */
+.iframe-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%;
+    /* Proporción 16:9 */
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 </style>

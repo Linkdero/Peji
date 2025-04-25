@@ -38,8 +38,8 @@ export default {
     },
     data() {
         return {
-            titulo: 'Ultimas Noticias',
-            subTitulo: 'Visite nuestras ultimas noticias',
+            titulo: 'Ultimos Eventos',
+            subTitulo: 'Visite nuestras ultimos eventos',
             ultimasNoticias: []
         }
     },

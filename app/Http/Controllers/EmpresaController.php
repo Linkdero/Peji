@@ -23,6 +23,7 @@ class EmpresaController extends Controller
             'empresa_logo' => $empresa->empresa_logo,
             'telefonos' => $empresa->telefonos->map(function ($telefono) {
                 return [
+                    'id_telefono' => $telefono->id_telefono,
                     'telefono_detalle' => $telefono->telefono_detalle
                 ];
             }),
@@ -34,6 +35,7 @@ class EmpresaController extends Controller
             }),
             'correos' => $empresa->correos->map(function ($correo) {
                 return [
+                    'id_correo' => $correo->id_correo,
                     'correo_detalle' => $correo->correo_detalle
                 ];
             }),
@@ -48,6 +50,7 @@ class EmpresaController extends Controller
             }),
             'redes_sociales' => $empresa->redesSociales->map(function ($red) {
                 return [
+                    'id_red' => $red->id_red,
                     'link' => $red->link,
                     'red_social' => [
                         'red_social_detalle' => $red->redSocial->red_social_detalle ?? null,

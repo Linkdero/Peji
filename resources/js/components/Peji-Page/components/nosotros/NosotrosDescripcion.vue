@@ -1,15 +1,14 @@
 <template>
     <section id="about" class="about section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <span class="section-badge"><i class="bi bi-info-circle"></i> Acerca de: {{ informacion.empresa_nombre
-            }}</span>
+            <!-- <span class="section-badge">
+                <i class="bi bi-info-circle"></i>
+                Acerca de: {{ informacion.empresa_nombre }}
+            </span> -->
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg">
                     <h2 class="about-title">{{ informacion.empresa_nombre }}</h2>
                     <p class="about-description">{{ informacion.empresa_detalle }}</p>
-                </div>
-                <div class="col-lg-6">
-                    <p class="about-text">{{ informacion.empresa_detalle }}</p>
                 </div>
             </div>
 

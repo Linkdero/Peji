@@ -9,8 +9,8 @@
                 </form>
             </div>
             <FiltroCategoriasAgupadas @categoria-seleccionada="categoriaSeleccionada" />
-            <ultimasPublicaciones />
             <FiltroTags @tags-seleccionados="tagsSeleccionados" />
+            <ultimasPublicaciones />
         </div>
 
     </div>

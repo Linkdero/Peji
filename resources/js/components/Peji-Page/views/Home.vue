@@ -7,6 +7,7 @@ import NoticiasCategoria from '@/components/Peji-Page/components/inicio/Noticias
 import NoticiasOferta from '@/components/Peji-Page/components/inicio/NoticiasOferta.vue';
 import NoticiasUltimas from '@/components/Peji-Page/components/inicio/NoticiasUltimas.vue';
 import NoticiasSuscripcion from '@/components/Peji-Page/components/inicio/NoticiasSuscripcion.vue';
+import NoticiaColaboradores from '@/components/Peji-Page/components/inicio/NoticiaColaboradores.vue';
 
 export default {
     props: ['informacion', 'categorias'],
@@ -14,17 +15,20 @@ export default {
         Link,
         NoticiasCarousel,
         NoticiasUltimasPrincipal,
-        NoticiasPopulares,
-        NoticiasCategoria,
+        // NoticiasPopulares,
+        // NoticiasCategoria,
         NoticiasOferta,
-        NoticiasUltimas,
+        // NoticiasUltimas,
         NoticiasSuscripcion,
+        NoticiaColaboradores
     }
 }
 </script>
 
 <template>
     <NoticiasCarousel />
+    <NoticiaColaboradores />
+
     <NoticiasUltimasPrincipal />
     <NoticiasPopulares />
     <NoticiasCategoria />

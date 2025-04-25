@@ -14,6 +14,8 @@ class ModuloSeeder extends Seeder
             ['modulo_detalle' => 'Dashboard', 'icon' => 'ki-element-11', 'activo' => true],
             ['modulo_detalle' => 'Publicaciones', 'icon' => 'ki-pencil', 'activo' => true],
             ['modulo_detalle' => 'Referencias', 'icon' => 'ki-fasten', 'activo' => true],
+            ['modulo_detalle' => 'Componentes', 'icon' => 'ki-code', 'activo' => true],
+            ['modulo_detalle' => 'Empresa', 'icon' => 'ki-home', 'activo' => true],
         ];
 
         foreach ($modulos as $modulo) {

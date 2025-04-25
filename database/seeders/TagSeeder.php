@@ -14,10 +14,10 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         $tags = [
-            ['tag_detalle' => 'Oferta', 'id_estado' => 1],
-            ['tag_detalle' => 'Nuevo', 'id_estado' => 1],
-            ['tag_detalle' => 'Popular', 'id_estado' => 1],
-            ['tag_detalle' => 'Limitado', 'id_estado' => 1],
+            ['tag_detalle' => 'Cerveceria', 'id_estado' => 1],
+            ['tag_detalle' => 'Colegio Maya', 'id_estado' => 1],
+            ['tag_detalle' => 'Colegio Valle Verde', 'id_estado' => 1],
+            ['tag_detalle' => 'Grupo Hame', 'id_estado' => 1],
         ];
 
         foreach ($tags as $tag) {

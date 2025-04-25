@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             RedSocialSeeder::class,
             EmpresaSeeder::class,
             UsuarioPaginaSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }

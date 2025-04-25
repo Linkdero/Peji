@@ -74,3 +74,5 @@ require __DIR__ . '/apisTag/apiTag.php';
 require __DIR__ . '/apisNoticia/apiNoticia.php';
 require __DIR__ . '/apisModulo/apisModulo.php';
 require __DIR__ . '/apisEmpresa/apiEmpresa.php';
+require __DIR__ . '/apisBanner/apiBanner.php';
+require __DIR__ . '/apisRedSocial/apiRedSocial.php';

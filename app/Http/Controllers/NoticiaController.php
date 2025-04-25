@@ -288,4 +288,49 @@ class NoticiaController extends Controller
 
         return response()->json($noticias);
     }
+
+    public function getNoticiasEstados(Request $request)
+    {
+        $estado = $request->input('estado'); // Se espera que sea 0, 1 o 2
+
+        $query = Noticia::with(['creador', 'estado', 'categoria']);
+
+        if ($estado === null || !in_array($estado, [0, 1, 2])) {
+            return response()->json(['error' => 'Parámetro estado inválido'], 400);
+        }
+
+        // Si el estado es distinto de 2, aplicamos el filtro
+        if ($estado != 2) {
+            $query->where('id_estado', $estado);
+        }
+
+        $noticias = $query->orderBy('fecha_creacion', 'desc')->get();
+
+        // Formatear y limpiar datos
+        $noticias = $noticias->map(function ($noticia) {
+            $noticia->fecha_creacion = Carbon::parse($noticia->fecha_creacion)->translatedFormat('M. jS, Y');
+            unset($noticia->created_at, $noticia->updated_at);
+
+            if ($noticia->creador) {
+                unset(
+                    $noticia->creador->created_at,
+                    $noticia->creador->updated_at,
+                    $noticia->creador->email,
+                    $noticia->creador->email_verified_at
+                );
+            }
+
+            if ($noticia->estado) {
+                unset($noticia->estado->created_at, $noticia->estado->updated_at);
+            }
+
+            if ($noticia->categoria) {
+                unset($noticia->categoria->created_at, $noticia->categoria->updated_at);
+            }
+
+            return $noticia;
+        });
+
+        return response()->json($noticias);
+    }
 }

@@ -22,4 +22,9 @@ class Estado extends Model
     {
         return $this->hasMany(Tag::class, 'id_estado');
     }
+
+    public function banners()
+    {
+        return $this->hasMany(Banner::class, 'id_estado');
+    }
 }
