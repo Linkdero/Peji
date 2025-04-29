@@ -43,23 +43,33 @@
                         </div>
 
                         <!-- Sección Redes Sociales -->
-                        <div v-if="activeSection === 3">
+                        <div v-if="activeSection === 3" class="row">
                             <InputTitulo :titulo="'Link de la Red Social'" @set-nuevo-titulo="actualizarTitulo" />
                             <ListadoRedesSociales :modal="idModal" @red-social-seleccionada="actualizarRedSocial" />
-                            <button v-if="InputTitulo != '' && redSocialSeleccionada != ''" @click="validarRedSocial()"
-                                type="button" class="btn btn-primary btn-sm">
-                                <i class="ki-outline ki-plus-circle"></i>Agregar</button>
-                            <TablaRedesSociales :red="redSocialCargada"/>
+                            <div class="col-md-6 fv-row"
+                                v-if="(tituloSeleccionado != '') && (redSocialSeleccionada != '')">
+                                <div class="row">
+                                    <label class="required fs-6 fw-semibold mb-2 fw-bold">Agregar Red Social</label>
+                                    <button @click="validarRedSocial()" type="button" class="btn btn-primary btn-sm">
+                                        <i class="ki-outline ki-plus-circle"></i>Agregar
+                                    </button>
+                                </div>
+                            </div>
+                            <TablaRedesSociales :red="redSocialCargada" />
                             <!-- Aquí irían los componentes para redes sociales -->
-
                         </div>
 
                         <!-- Sección Lugar y Horario -->
                         <div v-if="activeSection === 4">
-                            <!-- Aquí irían los componentes para lugar y horario -->
-                            <div class="alert alert-info">
-                                Componentes para Lugar y Horario (pendiente de implementar)
+                            <InputTitulo :titulo="'Dirección de la Empresa'" @set-nuevo-titulo="actualizarTitulo" />
+                            <InputTextarea :titulo="'Dirección Iframe'" @set-nuevo-detalle="actualizarDetalle" />
+                            <div class="row" v-if="(tituloSeleccionado != '') && (detalleSeleccionado != '')">
+                                <label class="required fs-6 fw-semibold mb-2 fw-bold">Agregar Dirección</label>
+                                <button @click="validarDireccion()" type="button" class="btn btn-primary btn-sm">
+                                    <i class="ki-outline ki-plus-circle"></i>Agregar
+                                </button>
                             </div>
+                            <TablaDirecciones :direccion="direccionCargada" />
                         </div>
 
                         <div v-show="activeSection === 1 && validarFormulario" class="text-center">
@@ -91,6 +101,8 @@ import InputRadioEncabezado from '@/components/Peji-Admin/components/elements/In
 import InputCorreo from '@/components/Peji-Admin/components/elements/InputCorreo.vue';
 import ListadoRedesSociales from '@/components/Peji-Admin/components/get/ListadoRedesSociales.vue';
 import TablaRedesSociales from '@/components/Peji-Admin/components/set/TablaRedesSociales.vue';
+import TablaDirecciones from '@/components/Peji-Admin/components/set/TablaDirecciones.vue';
+import InputTextarea from '@/components/Peji-Admin/components/elements/InputTextarea.vue';
 
 export default {
     props: ['informacion'],
@@ -111,16 +123,20 @@ export default {
                 { label: 'Contacto', value: 2 },
                 { label: 'Redes Sociales', value: 3 },
                 { label: 'Lugar y Horario', value: 4 }
+
             ],
             correoSeleccionado: '',
             redSocialSeleccionada: '',
+            redSocialSeleccionadaNombre: '',
             redSocialCargada: [],
+            direccionCargada: [],
         }
     },
     created() {
         this.numeroCargado = this.informacion.telefonos;
         this.correoCargado = this.informacion.correos;
         this.redSocialCargada = this.informacion.redes_sociales;
+        this.direccionCargada = this.informacion.direcciones;
         console.log('Esta es la información de la empresa:', this.informacion);
     },
     components: {
@@ -133,7 +149,9 @@ export default {
         InputRadioEncabezado,
         InputCorreo,
         ListadoRedesSociales,
-        TablaRedesSociales
+        TablaRedesSociales,
+        TablaDirecciones,
+        InputTextarea
     },
     computed: {
         validarFormulario() {
@@ -213,36 +231,70 @@ export default {
                 console.log('Número vacío');
             }
         },
-        actualizarRedSocial(n) {
+        actualizarRedSocial(n, m) {
             this.redSocialSeleccionada = n;
+            this.redSocialSeleccionadaNombre = m;
             console.log('Nueva red social seleccionada:', n);
         },
         validarRedSocial() {
-            if (this.redSocialSeleccionada) {
-                const existe = this.redSocialCargada.some(
-                    c => c.correo_detalle === this.redSocialSeleccionada
-                );
+            // Asegurarse que redSocialCargada es un array
+            this.redSocialCargada = this.redSocialCargada || [];
 
-                if (!existe) {
-                    this.redSocialCargada.push({
-                        id_red_social: 0,
-                        link: this.redSocialSeleccionada
-                    });
-                    this.key++; // Actualiza la tabla
-                    console.log('Correo agregado:', this.redSocialCargada);
-                } else {
-                    Swal.fire({
-                        icon: "success",
-                        title: "La red social ya fue agregado",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
+            // Verificar si ya existe la red social con el mismo link
+            const existe = this.redSocialCargada.some(
+                c => c.red_social && c.link === this.tituloSeleccionado
+            );
+
+            if (!existe) {
+                // Aquí necesitas asegurarte de incluir la estructura red_social
+                this.redSocialCargada.push({
+                    id_red: 0,
+                    id_red_social: this.redSocialSeleccionada,
+                    link: this.tituloSeleccionado,
+                    red_social: {
+                        red_social_detalle: this.redSocialSeleccionadaNombre, // Deberías obtener este valor
+                        icon: "bi bi-globe" // Icono por defecto
+                    }
+                });
+                this.key++;
+                console.log('Red social agregada:', this.redSocialCargada);
             } else {
-                console.log('Red Social vacío');
+                Swal.fire({
+                    icon: "warning",
+                    title: "Esta red social ya fue agregada",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         },
+        validarDireccion() {
+            // Asegurarse que redSocialCargada es un array
+            this.direccionCargada = this.direccionCargada || [];
 
+            // Verificar si ya existe la red social con el mismo link
+            const existe = this.direccionCargada.some(
+                d => d.direccion_detalle === this.tituloSeleccionado || d.iframe_mapa === this.detalleSeleccionado
+                
+            );
+
+            if (!existe) {
+                // Aquí necesitas asegurarte de incluir la estructura red_social
+                this.direccionCargada.push({
+                    id_direccion: 0,
+                    direccion_detalle: this.tituloSeleccionado,
+                    iframe_mapa: this.detalleSeleccionado,
+                });
+                this.key++;
+                console.log('Dirección agregada:', this.direccionCargada);
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Esta dirección ya fue agregada",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
     },
 }
 </script>

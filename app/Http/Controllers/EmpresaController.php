@@ -29,6 +29,7 @@ class EmpresaController extends Controller
             }),
             'direcciones' => $empresa->direcciones->map(function ($direccion) {
                 return [
+                    'id_direccion' => $direccion->id_direccion,
                     'direccion_detalle' => $direccion->direccion_detalle,
                     'iframe_mapa' => $direccion->iframe_mapa
                 ];

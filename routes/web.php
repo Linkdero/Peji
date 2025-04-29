@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Noticia;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', ['component' => 'Home']);
@@ -16,11 +17,11 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return Inertia::render('Welcome', ['component' => 'Contact']);
 })->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::get('/category', function () {
     return Inertia::render('Welcome', ['component' => 'Category']);
 })->name('category');
-
 
 Route::get('/noticia/{id}', function ($id) {
     $noticia = Noticia::with([
@@ -28,7 +29,10 @@ Route::get('/noticia/{id}', function ($id) {
         'estado:id_estado,estado_detalle',
         'categoria:id_categoria,categoria_detalle',
         'tags:id_tag,tag_detalle',
-        'galeriaImagenes:id,id_noticia,ruta'
+        'galeriaImagenes:id,id_noticia,ruta',
+    ])->withCount([
+        'comentarios',
+        'likes'
     ])->findOrFail($id);
 
     // Función para obtener sufijo ordinal

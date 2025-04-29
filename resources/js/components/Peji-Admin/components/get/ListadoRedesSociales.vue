@@ -40,7 +40,8 @@ export default {
                     });
                     $('#redes').on("change", (event) => {
                         const selectedId = $(event.target).val();
-                        this.$emit("red-social-seleccionada", selectedId);
+                        const nombre = $(event.target).find(':selected').text();
+                        this.$emit("red-social-seleccionada", selectedId, nombre);
                     });
                 }, 100);
             } catch (error) {

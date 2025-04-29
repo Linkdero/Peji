@@ -11,7 +11,7 @@
         <div class="post-meta">
             <span class="date"><i class="bi bi-calendar3"></i> {{ informacion.fecha_creacion }}</span>
             <span class="divider">•</span>
-            <span class="comments"><i class="bi bi-chat-text"></i> 18 Comentarios</span>
+            <span class="comments"><i class="bi bi-chat-text"></i> {{ informacion.comentarios_count }} Comentarios</span>
         </div>
     </div>
 </template>
